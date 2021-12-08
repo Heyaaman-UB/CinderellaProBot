@@ -111,6 +111,24 @@ def markdown_help(bot: Bot, update: Update):
 @run_async
 @sudo_plus
 def stats(bot: Bot, update: Update):
+	stat = "--- System Status ---\n"
+	stat += f"Cinderella Version: `{VERSION}`""\n"
+	stat += "Python Version: `"+python_version()+"`\n"
+	stat += "GitHub API Version: `"+str(git.vercheck())+"`\n"
+	#Software Info
+	uname = platform.uname()
+	softw = "--- Software Information ---\n"
+	softw += f"System: `{uname.system}`\n"
+	softw += f"Node Name: `{uname.node}`\n"
+	softw += f"Release: `{uname.release}`\n"
+	softw += f"Version: `{uname.version}`\n"
+	softw += f"Machine: `{uname.machine}`\n"
+	softw += f"Processor: `{uname.processor}`\n"
+	#Boot Time
+	boot_time_timestamp = psutil.boot_time()
+	bt = datetime.fromtimestamp(boot_time_timestamp)
+	softw += f"Boot Time: `{bt.year}`/`{bt.month}`/`{bt.day}`  `{bt.hour}`:`{bt.minute}`:`{bt.second}`\n"
+
     stats = "Current stats:\n" + "\n".join([mod.__stats__() for mod in STATS])
     result = re.sub(r'(\d+)', r'<code>\1</code>', stats)
     update.effective_message.reply_text(result, parse_mode=ParseMode.HTML)
